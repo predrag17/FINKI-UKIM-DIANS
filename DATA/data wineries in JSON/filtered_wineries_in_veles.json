@@ -1,0 +1,23 @@
+[
+ {
+   "title": "Winery „Chateau Sopot“",
+   "main_category": "Винарија",
+   "rating": 4.4,
+   "reviews": 669,
+   "address": "Winery „Chateau Sopot“, MK, Велес 1400"
+ },
+ {
+   "title": "OldSchoolWinery",
+   "main_category": "Винарија",
+   "rating": 4.7,
+   "reviews": 6,
+   "address": "OldSchoolWinery, Lake Mladost Veles MK, 1400"
+ },
+ {
+   "title": "Семејни вина Коцев",
+   "main_category": "Винарија",
+   "rating": 5,
+   "reviews": 2,
+   "address": "Семејни вина Коцев, Прохор Пчински, Велес"
+ }
+]

@@ -1,0 +1,142 @@
+[
+ {
+   "title": "Семејна винарија „Захарчев“",
+   "main_category": "Винарија",
+   "rating": 5,
+   "reviews": 14,
+   "address": "Семејна винарија „Захарчев“, Косовска 16, Кавадарци 1430"
+ },
+ {
+   "title": "Winery Kuvin",
+   "main_category": "Винарија",
+   "rating": 5,
+   "reviews": 9,
+   "address": "Winery Kuvin, Македонска Преродба бр.70, Скопје 1000"
+ },
+ {
+   "title": "Alesto Winery",
+   "main_category": "Винарија",
+   "rating": 5,
+   "reviews": 11,
+   "address": "Alesto Winery, Arvati"
+ },
+ {
+   "title": "Семејна винарија „Пешков“",
+   "main_category": "Винарија",
+   "rating": 4.6,
+   "reviews": 10,
+   "address": "C2G3+7HV Семејна винарија „Пешков“, Кавадарци"
+ },
+ {
+   "title": "Винарска визба Валандово",
+   "main_category": "Винарија",
+   "rating": 4.7,
+   "reviews": 16,
+   "address": "Винарска визба Валандово, Orce Nikolov 6, Valandovo 2460"
+ },
+ {
+   "title": "S&S Winery",
+   "main_category": "Винарија",
+   "rating": 5,
+   "reviews": 27,
+   "address": "S&S Winery, Охрид"
+ },
+ {
+   "title": "OldSchoolWinery",
+   "main_category": "Винарија",
+   "rating": 4.7,
+   "reviews": 6,
+   "address": "OldSchoolWinery, Lake Mladost Veles MK, 1400"
+ },
+ {
+   "title": "Sarika Winery",
+   "main_category": "Винарија",
+   "rating": 5,
+   "reviews": 5,
+   "address": "Sarika Winery, Мирче Ацев 128, Прилеп 7500"
+ },
+ {
+   "title": "Винарија „Бади“",
+   "main_category": "Винарија",
+   "rating": 5,
+   "reviews": 11,
+   "address": "Винарија „Бади“, Pere Toshev 3, Kavadartsi 1430"
+ },
+ {
+   "title": "Езимит",
+   "main_category": "Винарија",
+   "rating": 4.5,
+   "reviews": 11,
+   "address": "Езимит, Ul. Bregalnicka 64a, Штип"
+ },
+ {
+   "title": "Домашни вина „Иванов“",
+   "main_category": "Винарија",
+   "rating": 5,
+   "reviews": 1,
+   "address": "Домашни вина „Иванов“, MK MK, Игман 11, Кавадарци 1430"
+ },
+ {
+   "title": "Борд лајф",
+   "main_category": "Винарија",
+   "rating": 4.9,
+   "reviews": 18,
+   "address": "Борд лајф, 1106, Skopje 1000, Скопје"
+ },
+ {
+   "title": "Винарија Мирон (Miron winery)",
+   "main_category": "Винарија",
+   "rating": 5,
+   "reviews": 2,
+   "address": "Винарија Мирон (Miron winery), Palmiro Toljati 88, Скопје 1000"
+ },
+ {
+   "title": "Винарија Далвина",
+   "main_category": "Винарија",
+   "rating": 4.8,
+   "reviews": 20,
+   "address": "Винарија Далвина, R1302, Hamzali 2431"
+ },
+ {
+   "title": "Винарија Охрид",
+   "main_category": "Винарија",
+   "rating": 5,
+   "reviews": 7,
+   "address": "4QHV+56P Винарија Охрид, Бул. Железничка ББ, Охрид 6000"
+ },
+ {
+   "title": "GD Tikves Winery",
+   "main_category": "Винарија",
+   "rating": 5,
+   "reviews": 1,
+   "address": "GD Tikves Winery, Ul. Kamendol - Trstenik S MK, Trstenik 1422"
+ },
+ {
+   "title": "Винарија „Мовино“",
+   "main_category": "Винарија",
+   "rating": 5,
+   "reviews": 2,
+   "address": "GXC7+HVF Винарија „Мовино“, MK, Industriska BB, Rosoman 1422"
+ },
+ {
+   "title": "Семејни вина Коцев",
+   "main_category": "Винарија",
+   "rating": 5,
+   "reviews": 2,
+   "address": "Семејни вина Коцев, Прохор Пчински, Велес"
+ },
+ {
+   "title": "Винарија „Парагон“",
+   "main_category": "Винарија",
+   "rating": 4.8,
+   "reviews": 12,
+   "address": "G4C8+R4 Винарија „Парагон“, Криволак 1440"
+ },
+ {
+   "title": "Винарија Маркудов",
+   "main_category": "Винарија",
+   "rating": 4.9,
+   "reviews": 15,
+   "address": "5G24+M98 Винарија Маркудов, Индустриска, Гевгелија"
+ }
+]

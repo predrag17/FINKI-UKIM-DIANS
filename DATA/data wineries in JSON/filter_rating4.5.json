@@ -1,0 +1,30 @@
+[
+ {
+   "title": "Винарија „Попова кула“",
+   "main_category": "Винарија",
+   "rating": 4.5,
+   "reviews": 570,
+   "address": "Винарија „Попова кула“, Wine Boulevard No.1, Демир Капија 1442"
+ },
+ {
+   "title": "Езимит",
+   "main_category": "Винарија",
+   "rating": 4.5,
+   "reviews": 11,
+   "address": "Езимит, Ul. Bregalnicka 64a, Штип"
+ },
+ {
+   "title": "Винарија „Чифлик“",
+   "main_category": "Винарија",
+   "rating": 4.5,
+   "reviews": 664,
+   "address": "Винарија „Чифлик“, 2 br.18 Brusnik, Битола"
+ },
+ {
+   "title": "Винарија „Имако вино“",
+   "main_category": "Винарија",
+   "rating": 4.5,
+   "reviews": 42,
+   "address": "M5X4+MX Винарија „Имако вино“, 6th km local road Stip-Radovis MK, Sofilari 2000"
+ }
+]

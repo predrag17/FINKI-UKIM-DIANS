@@ -1,0 +1,30 @@
+[
+ {
+   "title": "Семејна винарија „Захарчев“",
+   "main_category": "Винарија",
+   "rating": 5,
+   "reviews": 14,
+   "address": "Семејна винарија „Захарчев“, Косовска 16, Кавадарци 1430"
+ },
+ {
+   "title": "Alesto Winery",
+   "main_category": "Винарија",
+   "rating": 5,
+   "reviews": 11,
+   "address": "Alesto Winery, Arvati"
+ },
+ {
+   "title": "S&S Winery",
+   "main_category": "Винарија",
+   "rating": 5,
+   "reviews": 27,
+   "address": "S&S Winery, Охрид"
+ },
+ {
+   "title": "Винарија „Бади“",
+   "main_category": "Винарија",
+   "rating": 5,
+   "reviews": 11,
+   "address": "Винарија „Бади“, Pere Toshev 3, Kavadartsi 1430"
+ }
+]

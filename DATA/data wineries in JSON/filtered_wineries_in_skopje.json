@@ -1,0 +1,44 @@
+[
+ {
+   "title": "Винарија „Камник“",
+   "main_category": "Винарија",
+   "rating": 4.8,
+   "reviews": 158,
+   "address": "Винарија „Камник“, Kamnik bb Skopje MK, 1000"
+ },
+ {
+   "title": "Винарија „Картал“",
+   "main_category": "Винарија",
+   "rating": 4.9,
+   "reviews": 53,
+   "address": "Винарија „Картал“, ul.1519 br.7 Skopje MK, 1000"
+ },
+ {
+   "title": "Winery Kuvin",
+   "main_category": "Винарија",
+   "rating": 5,
+   "reviews": 9,
+   "address": "Winery Kuvin, Македонска Преродба бр.70, Скопје 1000"
+ },
+ {
+   "title": "Винарска визба Тиквеш АД Скопје",
+   "main_category": "Винарија",
+   "rating": 4.2,
+   "reviews": 10,
+   "address": "Винарска визба Тиквеш АД Скопје, 810 no. 2, Скопје 1000"
+ },
+ {
+   "title": "Борд лајф",
+   "main_category": "Винарија",
+   "rating": 4.9,
+   "reviews": 18,
+   "address": "Борд лајф, 1106, Skopje 1000, Скопје"
+ },
+ {
+   "title": "Винарија Мирон (Miron winery)",
+   "main_category": "Винарија",
+   "rating": 5,
+   "reviews": 2,
+   "address": "Винарија Мирон (Miron winery), Palmiro Toljati 88, Скопје 1000"
+ }
+]

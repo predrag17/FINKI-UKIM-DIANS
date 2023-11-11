@@ -1,0 +1,37 @@
+[
+ {
+   "title": "Винарија „Картал“",
+   "main_category": "Винарија",
+   "rating": 4.9,
+   "reviews": 53,
+   "address": "Винарија „Картал“, ul.1519 br.7 Skopje MK, 1000"
+ },
+ {
+   "title": "Винарија „Брзанов“",
+   "main_category": "Винарија",
+   "rating": 4.9,
+   "reviews": 110,
+   "address": "Винарија „Брзанов“, ul 1 br. 4 MK, Трубарево 1047"
+ },
+ {
+   "title": "Monastery Winery",
+   "main_category": "Винарија",
+   "rating": 4.9,
+   "reviews": 150,
+   "address": "Monastery Winery, MK, Охрид 6000"
+ },
+ {
+   "title": "Борд лајф",
+   "main_category": "Винарија",
+   "rating": 4.9,
+   "reviews": 18,
+   "address": "Борд лајф, 1106, Skopje 1000, Скопје"
+ },
+ {
+   "title": "Винарија Маркудов",
+   "main_category": "Винарија",
+   "rating": 4.9,
+   "reviews": 15,
+   "address": "5G24+M98 Винарија Маркудов, Индустриска, Гевгелија"
+ }
+]
