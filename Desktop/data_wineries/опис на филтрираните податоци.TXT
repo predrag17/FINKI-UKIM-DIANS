@@ -1,0 +1,17 @@
+wineries-in-macedonia ---> овде ги имаме сите винарии во Македонија како што ни се извлечени податоците од google со scraper
+
+Во сите други csv фајлови избришана е колоната со линковите од google maps
+
+filtered_wineries_in_macedonia, filtered_wineries_in_veles, filtered_wineries_in_negotino, filtered_wineries_in_kavadarci  ---> овде се винариите во Македонија и одредени градови, без празни полиња(филтрирани)
+
+filter_rating 4.5-5.0 ---> овде ги имаме винариите со оцена од 4.5 до 5.0
+
+filter_rating_review ---> овде ги имаме винариите со оцена над 4.5 и со 30 или повеќе рецензии
+
+filter_rating_review1 ---> овде ги имаме винариите со оцена над 4.5 но со помалку од 30 рецензии
+
+filter_five_star_rating ---> овде ги имаме винариите со оцена 5.0
+
+filter_five_star_rating_review ---> овде ги имаме винариите со оцена 5.0 и барем 10 рецензии
+
+filter_rating4.5, 4.6, 4.7, 4.8, 4.9 ---> поединечни филтри за сите овие оцени
