@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Application</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+        }
+
+        nav {
+            background-color: #444;
+            padding: 10px;
+            text-align: center;
+
+
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+        }
+
+        nav li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #555;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        select, input {
+            padding: 8px;
+            margin: 5px;
+        }
+
+        #search {
+            width: 300px;
+        }
+
+        #reviews {
+            margin-top: 20px;
+        }
+
+        #map {
+            height: 400px;
+            margin-top: 20px;
+        }
+
+        #contact h2 {
+            color: #333;
+        }
+
+        #contact p {
+            margin: 10px 0;
+            color: #555;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+
+        #new-contact {
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #contact-image {
+            max-width: 100%;
+        }
+
+
+        #contact-text {
+            text-align: end;
+        }
+
+        #calendar {
+            margin-left: 35px;
+        }
+
+        #new-contact h2 {
+            color: #eeeaea;
+        }
+
+        #new-contact p {
+            margin: 10px 0;
+            color: #eeeaea;
+        }
+
+        #flag-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        #flag {
+            cursor: pointer;
+        }
+
+        table {
+            width: 20%;
+            border-collapse: collapse;
+            background-color: black;
+        }
+
+        th, td {
+            border: 1px solid grey;
+            text-align: center;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #444444;
+        }
+
+
+        td.today {
+            background-color: #9a9494;
+            font-weight: bold;
+        }
+
+        #currentDateInfo {
+            font-weight: bold;
+        }
+
+        .container1, #about-section {
+            margin: 20px auto;
+            overflow: auto;
+            max-height: 300px;
+
+
+        }
+
+        #about-section {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        #about-section a {
+            display: inline-block;
+            text-decoration: none;
+            color: #333;
+            transition: transform 0.8s, box-shadow 0.8s, color 0.8s;
+        }
+
+        #about-section a:hover {
+            transform: scale(1);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            color: #c83a39;
+            border-radius: 10px;
+            padding: 5px 5px 5px 5px;
+        }
+
+        #about-section a:not(:hover) {
+            transform: scale(1);
+            box-shadow: none;
+            border-radius: 10px;
+            padding: 5px 5px 5px 5px;
+        }
+
+        #map {
+            height: 400px;
+            width: 90%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 50px auto 50px auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+
+        }
+
+    </style>
+</head>
+<body>
+<header>
+    <img src="/images/left_logo_url.png" id="logo-left" alt="Left Logo" width="100" height="70">
+    <h1 id="logo-middle">Винарии во Македонија</h1>
+    <h1 id="logo-right">ВИНО++</h1>
+
+</header>
+
+<nav>
+    <ul>
+        <li><a th:href="@{/home}">Дома</a></li>
+        <li><a href="#">Винарии</a></li>
+        <li><a th:href="@{/winery/aboutUs}">За нас</a></li>
+        <li><a href="#new-contact" onclick="scrollToNewContact()">Контакт</a></li>
+    </ul>
+</nav>
+
+<div class="container">
+    <form method="post" action="/wineries">
+        <label>Избери филтер:</label>
+        <select id="filter" name="filter">
+            <option selected disabled hidden>Избери категорија</option>
+            <option>Рејтинг</option>
+            <option>Коментар</option>
+        </select>
+
+        <input type="submit" value="Пребарај"/>
+    </form>
+
+    <form method="post" action="/wineries/search">
+        <input type="text" id="search" placeholder="Пребарувај според име или адреса... " name="search">
+
+        <input type="submit" value="Пребарај"/>
+    </form>
+
+    <div id="reviews">
+
+    </div>
+
+
+    <div id="map">
+    </div>
+    <th:block th:if="${latitudes} != null">
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            var wineries = /*[[${wineries}]]*/ 4;
+            var latitudes = /*[[${latitudes}]]*/ 4;
+            var longitudes = /*[[${longitudes}]]*/ 5;
+            /*]]>*/
+        </script>
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <script th:inline="javascript">
+            document.addEventListener('DOMContentLoaded', function () {
+                var map = L.map('map').setView([41.6137143, 21.743258], 8);
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+
+
+                for (var i = 0; i < wineries.length; i++) {
+                    var winery = wineries[i];
+                    var latitude = latitudes[i];
+                    var longitude = longitudes[i];
+
+                    var marker = L.marker([latitude, longitude]).addTo(map);
+                    marker.bindPopup('<b>' + winery.title);
+                }
+            });
+        </script>
+    </th:block>
+    <th:block th:if="${filteredLatitudes} != null">
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            var wineries = /*[[${wines}]]*/ 4;
+            var latitudes = /*[[${filteredLatitudes}]]*/ 4;
+            var longitudes = /*[[${filteredLongitudes}]]*/ 5;
+            /*]]>*/
+        </script>
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <script th:inline="javascript">
+            document.addEventListener('DOMContentLoaded', function () {
+                var map = L.map('map').setView([41.6137143, 21.743258], 8);
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+
+
+                for (var i = 0; i < wineries.length; i++) {
+                    var winery = wineries[i];
+                    var latitude = latitudes[i];
+                    var longitude = longitudes[i];
+
+                    var marker = L.marker([latitude, longitude]).addTo(map);
+                    marker.bindPopup('<b>' + winery.title);
+                }
+            });
+        </script>
+    </th:block>
+
+    <th:block th:if="${searchedLatitudes} != null">
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            var wineries = /*[[${searchedWines}]]*/ 4;
+            var latitudes = /*[[${searchedLatitudes}]]*/ 4;
+            var longitudes = /*[[${searchedLongitudes}]]*/ 5;
+            /*]]>*/
+        </script>
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <script th:inline="javascript">
+            document.addEventListener('DOMContentLoaded', function () {
+                var map = L.map('map').setView([41.6137143, 21.743258], 8);
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+
+
+                for (var i = 0; i < wineries.length; i++) {
+                    var winery = wineries[i];
+                    var latitude = latitudes[i];
+                    var longitude = longitudes[i];
+
+                    var marker = L.marker([latitude, longitude]).addTo(map);
+                    marker.bindPopup('<b>' + winery.title);
+                }
+            });
+        </script>
+    </th:block>
+
+    <div class="container1">
+
+        <section id="about-section">
+            <div th:if="${wineries} != null"
+                 th:each="winery : ${wineries}">
+                <a th:text="${winery}" th:href="@{'/winery/info/{id}' (id=${winery.getId()})}"></a>
+            </div>
+
+            <div th:if="${wines} != null"
+                 th:each="winery : ${wines}"
+            >
+                <a th:text="${winery}" th:href="@{'/winery/info/{id}' (id=${winery.getId()})}"></a>
+            </div>
+
+            <div th:if="${searchedWines} != null"
+                 th:each="winery : ${searchedWines}">
+                <a th:text="${winery}" th:href="@{'/winery/info/{id}' (id=${winery.getId()})}"></a>
+            </div>
+
+
+        </section>
+
+
+    </div>
+
+
+</div>
+
+<footer>
+    <section id="new-contact">
+        <img id="contact-image" src="/images/left_logo_url.png" alt="Contact Image" width="220" height="160">
+
+        <div id="calendar">
+            <h2 id="currentMonthYear"></h2>
+            <table id="calendarTable">
+                <thead>
+                <tr>
+                    <th colspan="7" id="currentDateInfo"></th>
+                </tr>
+                <tr>
+                    <th>Sun</th>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div id="contact-text">
+            <h2>Контакт информации:</h2>
+            <p><strong>Име: </strong>ВИНО++</p>
+            <p><strong>Телефонски број: </strong> 078232323</p>
+            <p><strong>Адреса: </strong>Руѓер Бошковиќ 16</p>
+            <p><strong>Е-пошта: </strong> vinocontact@example.com</p>
+        </div>
+    </section>
+    <div id="flag-container">
+        <a href="#" onclick="scrollToTop()"><img id="flag" src="/images/mkd.png" alt="Macedonian Flag" width="50"
+                                                 height="30"></a>
+    </div>
+    <p>© 2023 Online Application. All rights reserved.</p>
+</footer>
+
+<script>
+    function scrollToTop() {
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    function scrollToNewContact() {
+        var newContactSection = document.getElementById('new-contact');
+        if (newContactSection) {
+            newContactSection.scrollIntoView({behavior: 'smooth'});
+        }
+    }
+
+    function generateCalendar(year, month, today) {
+        const tableBody = document.querySelector('#calendarTable tbody');
+        tableBody.innerHTML = '';
+
+
+        const firstDay = new Date(year, month, 1);
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        let dayCounter = 1;
+
+
+        let startDayOfWeek = firstDay.getDay();
+
+        for (let i = 0; i < 6; i++) {
+            const row = document.createElement('tr');
+
+            for (let j = 0; j < 7; j++) {
+                const cell = document.createElement('td');
+                if (i === 0 && j < startDayOfWeek) {
+
+                    cell.textContent = '';
+                } else if (dayCounter <= daysInMonth) {
+                    cell.textContent = dayCounter;
+                    if (dayCounter === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+                        cell.classList.add('today');
+                    }
+                    dayCounter++;
+                }
+                row.appendChild(cell);
+            }
+
+            tableBody.appendChild(row);
+        }
+    }
+
+    function updateDate() {
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear();
+        const currentMonth = currentDate.getMonth();
+
+
+        generateCalendar(currentYear, currentMonth, currentDate);
+
+
+        const currentDateInfo = document.getElementById('currentDateInfo');
+        currentDateInfo.textContent = `${new Intl.DateTimeFormat('en-US', {
+            weekday: 'long',
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+        }).format(currentDate)}`;
+    }
+
+
+    updateDate();
+
+
+    setInterval(updateDate, 1000 * 60 * 60 * 24);
+</script>
+
+</body>
+</html>
