@@ -15,6 +15,7 @@ public interface WineryRepository extends JpaRepository<Winery, Long> {
     List<Winery> findByRating(String filter);
 
     List<Winery> findByTitle(String title);
+    
 
     List<Winery> findByAddress(String address);
 
