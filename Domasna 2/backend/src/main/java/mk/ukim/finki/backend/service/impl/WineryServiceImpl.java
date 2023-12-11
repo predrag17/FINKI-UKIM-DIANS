@@ -80,4 +80,28 @@ public class WineryServiceImpl implements WineryService {
 
 
     }
+
+    @Override
+    public void deleteById(Long id) {
+        wineryRepository.deleteById(id);
+    }
+
+    @Override
+    public void save(String title, String link, String category, String rating, String reviews, String address, Long id){
+        if(id == null){
+            this.wineryRepository.save(new Winery(title, link, category, rating, reviews, address));
+            return;
+        }
+        Optional<Winery> winery = wineryRepository.findById(id);
+        if(winery.isPresent()){
+            winery.get().setTitle(title);
+            winery.get().setLink(link);
+            winery.get().setMainCategory(category);
+            winery.get().setRating(rating);
+            winery.get().setReviews(reviews);
+            winery.get().setAddress(address);
+            return;
+        }
+        this.wineryRepository.save(new Winery(title, link, category, rating, reviews, address));
+    }
 }

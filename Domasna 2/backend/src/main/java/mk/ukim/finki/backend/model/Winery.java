@@ -28,6 +28,8 @@ public class Winery {
     @ManyToOne
     private User user;
 
+//    public Winery(){}
+
     public Winery(String title, String link, String mainCategory, String rating, String reviews, String address) {
         this.title = title;
         this.link = link;

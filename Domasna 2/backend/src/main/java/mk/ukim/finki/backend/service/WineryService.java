@@ -14,4 +14,8 @@ public interface WineryService {
     Optional<Winery> findById(Long id);
 
     List<Winery> search(String search);
+
+    void deleteById(Long id);
+
+    void save(String title, String link, String category, String rating, String reviews, String address, Long id);
 }

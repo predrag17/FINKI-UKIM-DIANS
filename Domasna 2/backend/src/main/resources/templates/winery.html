@@ -213,7 +213,70 @@
             border-radius: 5px;
 
         }
+        @media only screen and (max-width: 600px) {
+            header {
+                flex-direction: column;
+                align-items: center;
+            }
 
+            #logo-left {
+                margin-bottom: 10px;
+            }
+
+            #logo-middle, #logo-right {
+                margin: 0;
+            }
+
+            nav ul {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav li {
+                display: block;
+                margin: 10px 0;
+            }
+
+            #image-overlay {
+                margin-top: 596px;
+            }
+
+            #text-under-overlay {
+                margin-top: 100px;
+            }
+
+            #background-container {
+                padding-bottom: 100px;
+            }
+
+            #new-contact {
+                flex-direction: column;
+                text-align: center;
+                margin-top: 20px;
+            }
+
+            #contact-image {
+                width: 100%;
+                max-width: none;
+                margin-bottom: 10px;
+            }
+
+            #calendar {
+                margin-left: 0;
+            }
+
+            table {
+                width: 100%;
+            }
+
+            #flag-container {
+                margin-top: 10px;
+            }
+
+            section {
+                margin-top: 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -249,6 +312,10 @@
         <input type="text" id="search" placeholder="Пребарувај според име или адреса... " name="search">
 
         <input type="submit" value="Пребарај"/>
+    </form>
+
+    <form method="get" action="/winery/add-winery">
+        <input type="submit" value="Додади нова винарија">
     </form>
 
     <div id="reviews">
@@ -353,19 +420,29 @@
             <div th:if="${wineries} != null"
                  th:each="winery : ${wineries}">
                 <a th:text="${winery}" th:href="@{'/winery/info/{id}' (id=${winery.getId()})}"></a>
+
+                <button><a th:href="@{'/winery/delete/{id}' (id=${winery.getId()})}" th:method="GET">Delete</a></button>
+
+                <button><a th:href="@{'/winery/edit/{id}' (id=${winery.getId()})}" th:method="POST">Edit</a></button>
             </div>
 
             <div th:if="${wines} != null"
-                 th:each="winery : ${wines}"
-            >
+                 th:each="winery : ${wines}">
                 <a th:text="${winery}" th:href="@{'/winery/info/{id}' (id=${winery.getId()})}"></a>
+
+                <button><a th:href="@{'/winery/delete/{id}' (id=${winery.getId()})}" th:method="GET">Delete</a></button>
+
+                <button><a th:href="@{'/winery/edit/{id}' (id=${winery.getId()})}" th:method="POST">Edit</a></button>
             </div>
 
             <div th:if="${searchedWines} != null"
                  th:each="winery : ${searchedWines}">
                 <a th:text="${winery}" th:href="@{'/winery/info/{id}' (id=${winery.getId()})}"></a>
-            </div>
 
+                <button><a th:href="@{'/winery/delete/{id}' (id=${winery.getId()})}" th:method="GET">Delete</a></button>
+
+                <button><a th:href="@{'/winery/edit/{id}' (id=${winery.getId()})}" th:method="POST">Edit</a></button>
+            </div>
 
         </section>
 

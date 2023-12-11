@@ -1,5 +1,6 @@
 package mk.ukim.finki.backend.controller;
 
+import jakarta.servlet.http.HttpSession;
 import mk.ukim.finki.backend.model.Winery;
 import mk.ukim.finki.backend.service.WineryService;
 import org.springframework.stereotype.Controller;
@@ -159,4 +160,43 @@ public class WineryController {
         return "about";
     }
 
+    @GetMapping("winery/delete/{id}")
+    public String deleteWinery(@PathVariable Long id){
+        wineryService.deleteById(id);
+        return "redirect:/wineries";
+    }
+
+    @GetMapping("winery/add-winery")
+    public String addNewWinery(Model model) {
+//        List<Winery> wineries = this.wineryService.findAll();
+//        model.addAttribute("wineries", wineries);
+        return "addWinery";
+    }
+
+    @GetMapping("winery/edit/{id}")
+    public String editWinery(@PathVariable Long id, Model model, HttpSession httpSession) {
+        Optional<Winery> winery = wineryService.findById(id);
+        if (winery.isEmpty()) {
+            return "redirect:/wineries?error=WineryNotFound";
+        }
+        httpSession.setAttribute("wineryId", id);
+        wineryService.deleteById(id);
+        model.addAttribute("winery", winery.get());
+        return "addWinery";
+    }
+
+    @PostMapping("winery/add")
+    public String saveWinery(@RequestParam("title") String title,
+                           @RequestParam("link") String link,
+                           @RequestParam("main-category") String category,
+                           @RequestParam("rating") String rating,
+                           @RequestParam("reviews") String reviews,
+                           @RequestParam("address") String address, HttpSession httpSession)
+
+    {
+        Long id = (Long) httpSession.getAttribute("winery");
+        wineryService.save(title, link, category, rating, reviews, address, id);
+        httpSession.removeAttribute("winery");
+        return "redirect:/wineries";
+    }
 }
