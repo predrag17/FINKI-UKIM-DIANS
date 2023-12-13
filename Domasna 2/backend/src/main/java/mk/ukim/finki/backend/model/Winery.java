@@ -36,7 +36,9 @@ public class Winery {
     @JsonIgnore
     private List<Comment> comments;
 
-//    public Winery(){}
+    @OneToMany(mappedBy = "winery", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Rating> ratings;
 
     public Winery(String title, String link, String mainCategory, String rating, String reviews, String address, User user) {
         this.title = title;
@@ -46,6 +48,18 @@ public class Winery {
         this.reviews = reviews;
         this.address = address;
         this.user = user;
+    }
+
+    public double avgRating() {
+        if (ratings.size() != 0) {
+            setRating(String.valueOf(ratings.stream().mapToDouble(rating -> Double.parseDouble(rating.getRating()))
+                    .average().getAsDouble()));
+
+            return Double.parseDouble(rating);
+        }
+
+        return 0;
+
     }
 
     @Override

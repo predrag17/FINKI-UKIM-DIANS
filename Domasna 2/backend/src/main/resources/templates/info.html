@@ -390,17 +390,49 @@
 <div class="container">
     <div id="c-container">
         <h1 th:text="${winery.getTitle()}"></h1>
-        <p>мал текст на винаријата</p>
         <div class="review-section">
             <th:block th:if="${winery.getRating()} != null">
-                <div id="average-review" th:text="'Рејтинг: ' + ${winery.getRating()}"></div>
+                <div id="average-review" th:text="'Рејтинг: ' + ${winery.avgRating()}"></div>
+                <div id="comments">
+                    <div class="comment" th:each="rating : ${ratings}">
+                        <strong th:text="${rating.getUser()} + ' ја оцени винаријата со '"></strong>
+                        <p
+                                th:text="${rating.getRating()}"></p>
+
+                        <th:block th:if="${session.user != null and session.user.getEmail() == 'admin@gmail.com'}">
+                            <div id="deleting">
+                                <a th:href="@{'/rating/delete/{id}' (id=${rating.getId()})}">
+                                    <button>Delete</button>
+                                </a>
+                            </div>
+                        </th:block>
+
+                        <th:block th:if="${session.user != null and session.user.getEmail() != 'admin@gmail.com'}">
+                            <div id="deleting" th:if="${rating.getUser().getId()} == ${session.user.getId()}">
+                                <a th:href="@{'/rating/delete/{id}' (id=${rating.getId()})}">
+                                    <button>Delete</button>
+                                </a>
+                            </div>
+                        </th:block>
+
+
+                    </div>
+
+
+                </div>
+
             </th:block>
 
             <th:block th:if="${winery.getRating()} == null">
                 <div id="average-review" th:text="'Нема рејтинг за оваа винарија'"></div>
             </th:block>
-
         </div>
+
+
+        <form method="post" action="/rating/add">
+            <input type="number" min="1" max="10" name="rating"/>
+            <input type="submit" value="Оцени"/>
+        </form>
     </div>
 
     <div id="c-container">

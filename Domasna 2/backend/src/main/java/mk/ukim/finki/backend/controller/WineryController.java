@@ -140,6 +140,8 @@ public class WineryController {
             }
         }
 
+        model.addAttribute("avgRating", winery.get().avgRating());
+        model.addAttribute("ratings", winery.get().getRatings());
         model.addAttribute("comments", winery.get().getComments());
         model.addAttribute("latitude", latitude);
         model.addAttribute("longitude", longitude);
