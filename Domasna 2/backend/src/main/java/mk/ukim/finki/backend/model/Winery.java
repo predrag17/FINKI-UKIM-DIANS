@@ -1,9 +1,12 @@
 package mk.ukim.finki.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -26,17 +29,23 @@ public class Winery {
     private String address;
 
     @ManyToOne
+    @JsonIgnore
     private User user;
+
+    @OneToMany(mappedBy = "winery")
+    @JsonIgnore
+    private List<Comment> comments;
 
 //    public Winery(){}
 
-    public Winery(String title, String link, String mainCategory, String rating, String reviews, String address) {
+    public Winery(String title, String link, String mainCategory, String rating, String reviews, String address, User user) {
         this.title = title;
         this.link = link;
         this.mainCategory = mainCategory;
         this.rating = rating;
         this.reviews = reviews;
         this.address = address;
+        this.user = user;
     }
 
     @Override

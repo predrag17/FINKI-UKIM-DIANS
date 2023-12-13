@@ -21,7 +21,20 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+        }
 
+
+        header a {
+            text-decoration: none;
+            color: white;
+        }
+
+        header h1 {
+            transition: transform 0.7s;
+        }
+
+        header h1:hover {
+            transform: scale(1.1);
         }
 
         nav {
@@ -164,12 +177,10 @@
             font-weight: bold;
         }
 
-        .container1, #about-section {
-            margin: 20px auto;
+        #about-section {
+            margin: 20px 20px 40px 20px;
             overflow: auto;
             max-height: 300px;
-
-
         }
 
         #about-section {
@@ -213,6 +224,7 @@
             border-radius: 5px;
 
         }
+
         @media only screen and (max-width: 600px) {
             header {
                 flex-direction: column;
@@ -223,7 +235,11 @@
                 margin-bottom: 10px;
             }
 
-            #logo-middle, #logo-right {
+            #logo-middle {
+                margin-left: 50px;
+            }
+
+            #logo-right {
                 margin: 0;
             }
 
@@ -282,7 +298,8 @@
 <body>
 <header>
     <img src="/images/left_logo_url.png" id="logo-left" alt="Left Logo" width="100" height="70">
-    <h1 id="logo-middle">Винарии во Македонија</h1>
+    <h1 id="logo-middle" th:if="${session.user != null}"><a th:href="@{/logout}" th:text="${session.user}"></a></h1>
+    <h1 id="logo-middle" th:if="${session.user == null}"><a th:href="@{/login}">Login</a></h1>
     <h1 id="logo-right">ВИНО++</h1>
 
 </header>
@@ -295,6 +312,7 @@
         <li><a href="#new-contact" onclick="scrollToNewContact()">Контакт</a></li>
     </ul>
 </nav>
+
 
 <div class="container">
     <form method="post" action="/wineries">
@@ -317,6 +335,7 @@
     <form method="get" action="/winery/add-winery">
         <input type="submit" value="Додади нова винарија">
     </form>
+
 
     <div id="reviews">
 
@@ -354,6 +373,7 @@
             });
         </script>
     </th:block>
+
     <th:block th:if="${filteredLatitudes} != null">
         <script th:inline="javascript">
             /*<![CDATA[*/
@@ -414,6 +434,9 @@
         </script>
     </th:block>
 
+    <th:block th:if="${wineryNotFound}">
+        <p>Winery Not Found</p>
+    </th:block>
     <div class="container1">
 
         <section id="about-section">
@@ -421,27 +444,39 @@
                  th:each="winery : ${wineries}">
                 <a th:text="${winery}" th:href="@{'/winery/info/{id}' (id=${winery.getId()})}"></a>
 
-                <button><a th:href="@{'/winery/delete/{id}' (id=${winery.getId()})}" th:method="GET">Delete</a></button>
 
-                <button><a th:href="@{'/winery/edit/{id}' (id=${winery.getId()})}" th:method="POST">Edit</a></button>
+                <button><a th:href="@{'/winery/delete/{id}' (id=${winery.getId()})}" th:method="GET">Delete</a>
+                </button>
+
+                <button><a th:href="@{'/winery/edit/{id}' (id=${winery.getId()})}" th:method="POST">Edit</a>
+                </button>
+
+
             </div>
 
             <div th:if="${wines} != null"
                  th:each="winery : ${wines}">
                 <a th:text="${winery}" th:href="@{'/winery/info/{id}' (id=${winery.getId()})}"></a>
 
-                <button><a th:href="@{'/winery/delete/{id}' (id=${winery.getId()})}" th:method="GET">Delete</a></button>
 
-                <button><a th:href="@{'/winery/edit/{id}' (id=${winery.getId()})}" th:method="POST">Edit</a></button>
+                <button><a th:href="@{'/winery/delete/{id}' (id=${winery.getId()})}" th:method="GET">Delete</a>
+                </button>
+
+                <button><a th:href="@{'/winery/edit/{id}' (id=${winery.getId()})}" th:method="POST">Edit</a>
+                </button>
+
             </div>
 
             <div th:if="${searchedWines} != null"
                  th:each="winery : ${searchedWines}">
                 <a th:text="${winery}" th:href="@{'/winery/info/{id}' (id=${winery.getId()})}"></a>
 
-                <button><a th:href="@{'/winery/delete/{id}' (id=${winery.getId()})}" th:method="GET">Delete</a></button>
+                <button><a th:href="@{'/winery/delete/{id}' (id=${winery.getId()})}" th:method="GET">Delete</a>
+                </button>
 
-                <button><a th:href="@{'/winery/edit/{id}' (id=${winery.getId()})}" th:method="POST">Edit</a></button>
+                <button><a th:href="@{'/winery/edit/{id}' (id=${winery.getId()})}" th:method="POST">Edit</a>
+                </button>
+
             </div>
 
         </section>

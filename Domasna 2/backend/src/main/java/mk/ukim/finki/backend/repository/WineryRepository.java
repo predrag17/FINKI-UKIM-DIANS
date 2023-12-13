@@ -18,7 +18,7 @@ public interface WineryRepository extends JpaRepository<Winery, Long> {
     List<Winery> findByTitle(String title);
 
     List<Winery> findByAddress(String address);
-//    public void deleteById(Long id);
+
 
     @Query(value = "SELECT w FROM mk.ukim.finki.backend.model.Winery w WHERE LOWER(w.title) LIKE LOWER(CONCAT('%', :search, '%')) " +
             "OR LOWER(w.address) LIKE LOWER(CONCAT('%', :search, '%'))")

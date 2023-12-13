@@ -1,5 +1,6 @@
 package mk.ukim.finki.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,12 +25,22 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Winery> wineries;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Comment> comments;
 
     public User(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s %s", firstName, lastName);
     }
 }

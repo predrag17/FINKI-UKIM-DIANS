@@ -1,6 +1,8 @@
 package mk.ukim.finki.backend.service.impl;
 
+import mk.ukim.finki.backend.model.User;
 import mk.ukim.finki.backend.model.Winery;
+import mk.ukim.finki.backend.repository.UserRepository;
 import mk.ukim.finki.backend.repository.WineryRepository;
 import mk.ukim.finki.backend.service.WineryService;
 import org.springframework.stereotype.Service;
@@ -16,9 +18,11 @@ import java.util.stream.Collectors;
 public class WineryServiceImpl implements WineryService {
 
     private final WineryRepository wineryRepository;
+    private final UserRepository userRepository;
 
-    public WineryServiceImpl(WineryRepository wineryRepository) {
+    public WineryServiceImpl(WineryRepository wineryRepository, UserRepository userRepository) {
         this.wineryRepository = wineryRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -77,31 +81,40 @@ public class WineryServiceImpl implements WineryService {
         }
 
         return wineryRepository.findBySearchTextContains(search);
-
-
     }
 
     @Override
-    public void deleteById(Long id) {
+    public boolean deleteById(Long id) {
+        if (!wineryRepository.existsById(id)) {
+            return false;
+        }
+
         wineryRepository.deleteById(id);
+        return true;
     }
 
     @Override
-    public void save(String title, String link, String category, String rating, String reviews, String address, Long id){
-        if(id == null){
-            this.wineryRepository.save(new Winery(title, link, category, rating, reviews, address));
-            return;
+    public Winery save(String title, String link, String category, String rating, String reviews, String address, Long id, Long userId) {
+        User user = userRepository.findById(userId).get();
+
+        if (id == null) {
+            return this.wineryRepository.save(new Winery(title, link, category, rating, reviews, address, user));
+        } else {
+            Optional<Winery> winery = wineryRepository.findById(id);
+            if (winery.isPresent()) {
+                winery.get().setTitle(title);
+                winery.get().setLink(link);
+                winery.get().setMainCategory(category);
+                winery.get().setRating(rating);
+                winery.get().setReviews(reviews);
+                winery.get().setAddress(address);
+                winery.get().setUser(user);
+                return wineryRepository.save(winery.get());
+            } else {
+                return null;
+            }
+
         }
-        Optional<Winery> winery = wineryRepository.findById(id);
-        if(winery.isPresent()){
-            winery.get().setTitle(title);
-            winery.get().setLink(link);
-            winery.get().setMainCategory(category);
-            winery.get().setRating(rating);
-            winery.get().setReviews(reviews);
-            winery.get().setAddress(address);
-            return;
-        }
-        this.wineryRepository.save(new Winery(title, link, category, rating, reviews, address));
+
     }
 }

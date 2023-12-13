@@ -2,6 +2,7 @@ package mk.ukim.finki.backend.controller;
 
 import jakarta.servlet.http.HttpSession;
 import mk.ukim.finki.backend.model.Winery;
+import mk.ukim.finki.backend.service.UserService;
 import mk.ukim.finki.backend.service.WineryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,10 +19,12 @@ import java.util.Optional;
 public class WineryController {
 
     private final WineryService wineryService;
+    private final UserService userService;
 
 
-    public WineryController(WineryService wineryService) {
+    public WineryController(WineryService wineryService, UserService userService) {
         this.wineryService = wineryService;
+        this.userService = userService;
     }
 
     @GetMapping("/home")
@@ -31,6 +34,10 @@ public class WineryController {
 
     @GetMapping("/wineries")
     public String listWineries(@RequestParam(required = false) String error, Model model) {
+        if (error != null && error.equals("WineryNotFound")) {
+            model.addAttribute("wineryNotFound", true);
+        }
+
         List<Winery> wineries = wineryService.findAll();
 
 
@@ -98,12 +105,13 @@ public class WineryController {
     }
 
     @GetMapping("/winery/info/{id}")
-    public String info(@PathVariable Long id, Model model) {
+    public String info(@PathVariable Long id, Model model, HttpSession session) {
         Optional<Winery> winery = wineryService.findById(id);
         if (winery.isEmpty()) {
             return "redirect:/wineries?error=WineryNotFound";
         }
 
+        session.setAttribute("wineryId", id);
         String[] parts = winery.get().getLink().split("/");
 
         double latitude = 0;
@@ -125,6 +133,7 @@ public class WineryController {
             }
         }
 
+        model.addAttribute("comments", winery.get().getComments());
         model.addAttribute("latitude", latitude);
         model.addAttribute("longitude", longitude);
         model.addAttribute("winery", winery.get());
@@ -160,43 +169,48 @@ public class WineryController {
         return "about";
     }
 
-    @GetMapping("winery/delete/{id}")
-    public String deleteWinery(@PathVariable Long id){
-        wineryService.deleteById(id);
-        return "redirect:/wineries";
+    @GetMapping("/winery/delete/{id}")
+    public String deleteWinery(@PathVariable Long id) {
+        boolean check = wineryService.deleteById(id);
+        if (check) {
+            return "redirect:/wineries";
+        }
+
+        return "redirect:/wineries?error=WineryNotFound";
     }
 
-    @GetMapping("winery/add-winery")
+    @GetMapping("/winery/add-winery")
     public String addNewWinery(Model model) {
-//        List<Winery> wineries = this.wineryService.findAll();
-//        model.addAttribute("wineries", wineries);
+        model.addAttribute("users", userService.findAll());
         return "addWinery";
     }
 
-    @GetMapping("winery/edit/{id}")
+    @GetMapping("/winery/edit/{id}")
     public String editWinery(@PathVariable Long id, Model model, HttpSession httpSession) {
         Optional<Winery> winery = wineryService.findById(id);
         if (winery.isEmpty()) {
             return "redirect:/wineries?error=WineryNotFound";
         }
         httpSession.setAttribute("wineryId", id);
-        wineryService.deleteById(id);
+        model.addAttribute("users", userService.findAll());
         model.addAttribute("winery", winery.get());
         return "addWinery";
     }
 
-    @PostMapping("winery/add")
+    @PostMapping("/winery/add")
     public String saveWinery(@RequestParam("title") String title,
-                           @RequestParam("link") String link,
-                           @RequestParam("main-category") String category,
-                           @RequestParam("rating") String rating,
-                           @RequestParam("reviews") String reviews,
-                           @RequestParam("address") String address, HttpSession httpSession)
-
-    {
-        Long id = (Long) httpSession.getAttribute("winery");
-        wineryService.save(title, link, category, rating, reviews, address, id);
-        httpSession.removeAttribute("winery");
+                             @RequestParam("link") String link,
+                             @RequestParam("main-category") String category,
+                             @RequestParam("rating") String rating,
+                             @RequestParam("reviews") String reviews,
+                             @RequestParam("address") String address,
+                             @RequestParam("userId") Long userId, HttpSession httpSession) {
+        Long id = (Long) httpSession.getAttribute("wineryId");
+        Winery winery = wineryService.save(title, link, category, rating, reviews, address, id, userId);
+        if (winery == null) {
+            return "redirect:/wineries?error=WineryNotFound";
+        }
+        httpSession.removeAttribute("wineryId");
         return "redirect:/wineries";
     }
 }
