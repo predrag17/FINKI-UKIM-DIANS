@@ -412,7 +412,16 @@
                         <strong th:text="${comment.getUser()} + ': '"></strong>
                         <p
                                 th:text="${comment.getComment()}"></p>
-                        <th:block th:if="${session.user != null}">
+
+                        <th:block th:if="${session.user != null and session.user.getEmail() == 'admin@gmail.com'}">
+                            <div id="deleting">
+                                <a th:href="@{'/comment/delete/{id}' (id=${comment.getId()})}">
+                                    <button>Delete</button>
+                                </a>
+                            </div>
+                        </th:block>
+
+                        <th:block th:if="${session.user != null and session.user.getEmail() != 'admin@gmail.com'}">
                             <div id="deleting" th:if="${comment.getUser().getId()} == ${session.user.getId()}">
                                 <a th:href="@{'/comment/delete/{id}' (id=${comment.getId()})}">
                                     <button>Delete</button>

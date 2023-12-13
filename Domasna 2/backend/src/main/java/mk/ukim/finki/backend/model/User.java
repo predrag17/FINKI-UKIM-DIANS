@@ -41,6 +41,10 @@ public class User {
 
     @Override
     public String toString() {
-        return String.format("%s %s", firstName, lastName);
+        if (email.equals("admin@gmail.com")) {
+            return String.format("%s", firstName);
+        } else {
+            return String.format("%s %s", firstName, lastName);
+        }
     }
 }

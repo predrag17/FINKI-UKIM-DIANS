@@ -454,6 +454,12 @@
                  th:each="winery : ${wineries}">
                 <a th:text="${winery}" th:href="@{'/winery/info/{id}' (id=${winery.getId()})}"></a>
 
+                <th:block th:if="${session.user != null and session.user.getEmail() == 'admin@gmail.com'}">
+                    <button><a th:href="@{'/winery/delete/{id}' (id=${winery.getId()})}" th:method="GET">Delete</a>
+                    </button>
+                    <button><a th:href="@{'/winery/edit/{id}' (id=${winery.getId()})}" th:method="POST">Edit</a>
+                    </button>
+                </th:block>
 
                 <th:block th:if="${session.user != null}">
                     <th:block th:if="${winery.getUser() != null and winery.getUser().getId() == session.user.getId()}">
