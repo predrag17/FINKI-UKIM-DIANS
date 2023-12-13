@@ -412,11 +412,15 @@
                         <strong th:text="${comment.getUser()} + ': '"></strong>
                         <p
                                 th:text="${comment.getComment()}"></p>
-                        <div th:if="${comment.getUser().getEmail()} == ${session.user.getEmail()}" id="deleting">
-                            <a th:href="@{'/comment/delete/{id}' (id=${comment.getId()})}">
-                                <button>Delete</button>
-                            </a>
-                        </div>
+                        <th:block th:if="${session.user != null}">
+                            <div id="deleting" th:if="${comment.getUser().getId()} == ${session.user.getId()}">
+                                <a th:href="@{'/comment/delete/{id}' (id=${comment.getId()})}">
+                                    <button>Delete</button>
+                                </a>
+                            </div>
+                        </th:block>
+
+
                     </div>
 
 
@@ -428,7 +432,7 @@
             </th:block>
 
 
-            <div class="wrapper">
+            <div th:if="${session.user != null}" class="wrapper">
                 <h3>Оставете коментар: </h3>
                 <form id="commentForm" method="post" th:action="@{/add-comment}">
                     <textarea name="comment" id="comment" cols="20" rows="2" placeholder="Вашиот коментар.."></textarea>
@@ -530,6 +534,64 @@
         });
     });
 
+    function generateCalendar(year, month, today) {
+        const tableBody = document.querySelector('#calendarTable tbody');
+        tableBody.innerHTML = '';
+
+
+        const firstDay = new Date(year, month, 1);
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        let dayCounter = 1;
+
+
+        let startDayOfWeek = firstDay.getDay();
+
+        for (let i = 0; i < 6; i++) {
+            const row = document.createElement('tr');
+
+            for (let j = 0; j < 7; j++) {
+                const cell = document.createElement('td');
+                if (i === 0 && j < startDayOfWeek) {
+
+                    cell.textContent = '';
+                } else if (dayCounter <= daysInMonth) {
+                    cell.textContent = dayCounter;
+                    if (dayCounter === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+                        cell.classList.add('today');
+                    }
+                    dayCounter++;
+                }
+                row.appendChild(cell);
+            }
+
+            tableBody.appendChild(row);
+        }
+    }
+
+
+    function updateDate() {
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear();
+        const currentMonth = currentDate.getMonth();
+
+
+        generateCalendar(currentYear, currentMonth, currentDate);
+
+
+        const currentDateInfo = document.getElementById('currentDateInfo');
+        currentDateInfo.textContent = `${new Intl.DateTimeFormat('en-US', {
+            weekday: 'long',
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+        }).format(currentDate)}`;
+    }
+
+
+    updateDate();
+
+
+    setInterval(updateDate, 1000 * 60 * 60 * 24);
 </script>
 
 

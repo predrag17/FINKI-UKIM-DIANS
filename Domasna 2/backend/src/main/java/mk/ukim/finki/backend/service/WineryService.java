@@ -13,7 +13,7 @@ public interface WineryService {
 
     Optional<Winery> findById(Long id);
 
-    List<Winery> search(String search);
+    List<Winery> search(String search, String filter);
 
     boolean deleteById(Long id);
 

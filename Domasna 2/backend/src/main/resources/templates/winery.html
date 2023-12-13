@@ -323,12 +323,22 @@
             <option>Коментар</option>
         </select>
 
-        <input type="submit" value="Пребарај"/>
+        <input type="submit" value="Филтрирај"/>
     </form>
 
     <form method="post" action="/wineries/search">
-        <input type="text" id="search" placeholder="Пребарувај според име или адреса... " name="search">
+        <th:block th:if="${chooseFilter}">
+            <strong>Мораш да избереш категорија за пребарување!</strong><br/>
+        </th:block>
+        <label>Избери категорија за пребарување:</label>
 
+        <select id="filter" name="filter">
+            <option selected disabled hidden>Избери категорија</option>
+            <option>Име</option>
+            <option>Град</option>
+        </select>
+
+        <input type="text" id="search" placeholder="Пребарувај според избрана категорија..." name="search">
         <input type="submit" value="Пребарај"/>
     </form>
 
@@ -445,11 +455,14 @@
                 <a th:text="${winery}" th:href="@{'/winery/info/{id}' (id=${winery.getId()})}"></a>
 
 
-                <button><a th:href="@{'/winery/delete/{id}' (id=${winery.getId()})}" th:method="GET">Delete</a>
-                </button>
-
-                <button><a th:href="@{'/winery/edit/{id}' (id=${winery.getId()})}" th:method="POST">Edit</a>
-                </button>
+                <th:block th:if="${session.user != null}">
+                    <th:block th:if="${winery.getUser() != null and winery.getUser().getId() == session.user.getId()}">
+                        <button><a th:href="@{'/winery/delete/{id}' (id=${winery.getId()})}" th:method="GET">Delete</a>
+                        </button>
+                        <button><a th:href="@{'/winery/edit/{id}' (id=${winery.getId()})}" th:method="POST">Edit</a>
+                        </button>
+                    </th:block>
+                </th:block>
 
 
             </div>
@@ -459,11 +472,14 @@
                 <a th:text="${winery}" th:href="@{'/winery/info/{id}' (id=${winery.getId()})}"></a>
 
 
-                <button><a th:href="@{'/winery/delete/{id}' (id=${winery.getId()})}" th:method="GET">Delete</a>
-                </button>
-
-                <button><a th:href="@{'/winery/edit/{id}' (id=${winery.getId()})}" th:method="POST">Edit</a>
-                </button>
+                <th:block th:if="${session.user != null}">
+                    <th:block th:if="${winery.getUser() != null and winery.getUser().getId() == session.user.getId()}">
+                        <button><a th:href="@{'/winery/delete/{id}' (id=${winery.getId()})}" th:method="GET">Delete</a>
+                        </button>
+                        <button><a th:href="@{'/winery/edit/{id}' (id=${winery.getId()})}" th:method="POST">Edit</a>
+                        </button>
+                    </th:block>
+                </th:block>
 
             </div>
 
@@ -471,12 +487,14 @@
                  th:each="winery : ${searchedWines}">
                 <a th:text="${winery}" th:href="@{'/winery/info/{id}' (id=${winery.getId()})}"></a>
 
-                <button><a th:href="@{'/winery/delete/{id}' (id=${winery.getId()})}" th:method="GET">Delete</a>
-                </button>
-
-                <button><a th:href="@{'/winery/edit/{id}' (id=${winery.getId()})}" th:method="POST">Edit</a>
-                </button>
-
+                <th:block th:if="${session.user != null}">
+                    <th:block th:if="${winery.getUser() != null and winery.getUser().getId() == session.user.getId()}">
+                        <button><a th:href="@{'/winery/delete/{id}' (id=${winery.getId()})}" th:method="GET">Delete</a>
+                        </button>
+                        <button><a th:href="@{'/winery/edit/{id}' (id=${winery.getId()})}" th:method="POST">Edit</a>
+                        </button>
+                    </th:block>
+                </th:block>
             </div>
 
         </section>

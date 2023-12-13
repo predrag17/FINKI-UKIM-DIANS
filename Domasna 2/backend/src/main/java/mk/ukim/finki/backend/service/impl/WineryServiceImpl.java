@@ -2,6 +2,7 @@ package mk.ukim.finki.backend.service.impl;
 
 import mk.ukim.finki.backend.model.User;
 import mk.ukim.finki.backend.model.Winery;
+import mk.ukim.finki.backend.repository.CommentRepository;
 import mk.ukim.finki.backend.repository.UserRepository;
 import mk.ukim.finki.backend.repository.WineryRepository;
 import mk.ukim.finki.backend.service.WineryService;
@@ -19,10 +20,12 @@ public class WineryServiceImpl implements WineryService {
 
     private final WineryRepository wineryRepository;
     private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
 
-    public WineryServiceImpl(WineryRepository wineryRepository, UserRepository userRepository) {
+    public WineryServiceImpl(WineryRepository wineryRepository, UserRepository userRepository, CommentRepository commentRepository) {
         this.wineryRepository = wineryRepository;
         this.userRepository = userRepository;
+        this.commentRepository = commentRepository;
     }
 
     @Override
@@ -36,7 +39,6 @@ public class WineryServiceImpl implements WineryService {
             return findAll();
         }
 
-
         List<Winery> wineries = findAll();
 
         if (filter.equals("Коментар")) {
@@ -49,7 +51,6 @@ public class WineryServiceImpl implements WineryService {
                             .filter(winery -> Objects.equals(winery.getReviews(), Integer.toString(sorted)))
                             .findFirst().orElse(null))
                     .collect(Collectors.toList());
-
         }
 
         if (filter.equals("Рејтинг")) {
@@ -73,14 +74,23 @@ public class WineryServiceImpl implements WineryService {
     }
 
     @Override
-    public List<Winery> search(String search) {
+    public List<Winery> search(String search, String filter) {
         if (search.startsWith(" ")) {
             search = search.substring(1);
         } else if (search.endsWith(" ")) {
             search = search.substring(0, search.length() - 1);
         }
 
-        return wineryRepository.findBySearchTextContains(search);
+        if (filter.equals("Име")) {
+            return wineryRepository.findAllByTitleContainsIgnoreCase(search);
+        }
+
+        if (filter.equals("Град")) {
+            return wineryRepository.findAllByAddressContainsIgnoreCase(search);
+        }
+
+        return wineryRepository.findAll();
+
     }
 
     @Override

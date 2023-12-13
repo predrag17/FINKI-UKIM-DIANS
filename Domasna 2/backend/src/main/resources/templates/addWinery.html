@@ -356,7 +356,13 @@
                 <div>
                     <label>Власник на винарија:</label>
                     <select name="userId">
-                        <option th:each="user : ${users}"
+                        <option th:if="${winery.getUser() != null}"
+                                th:selected="${winery.getUser().getId()} == ${user.getId()}"
+                                th:each="user : ${users}"
+                                th:text="${user}"
+                                th:value="${user.getId()}"></option>
+                        <option th:if="${winery.getUser() == null}"
+                                th:each="user : ${users}"
                                 th:text="${user}"
                                 th:value="${user.getId()}"></option>
                     </select>

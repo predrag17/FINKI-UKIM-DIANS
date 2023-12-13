@@ -32,7 +32,7 @@ public class Winery {
     @JsonIgnore
     private User user;
 
-    @OneToMany(mappedBy = "winery")
+    @OneToMany(mappedBy = "winery", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Comment> comments;
 

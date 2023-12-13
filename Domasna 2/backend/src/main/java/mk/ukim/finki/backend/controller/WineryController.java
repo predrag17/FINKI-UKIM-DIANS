@@ -33,7 +33,11 @@ public class WineryController {
     }
 
     @GetMapping("/wineries")
-    public String listWineries(@RequestParam(required = false) String error, Model model) {
+    public String listWineries(@RequestParam(required = false) String filter, @RequestParam(required = false) String error, Model model) {
+        if (filter != null && filter.equals("ChooseFilter")) {
+            model.addAttribute("chooseFilter", true);
+        }
+
         if (error != null && error.equals("WineryNotFound")) {
             model.addAttribute("wineryNotFound", true);
         }
@@ -54,7 +58,10 @@ public class WineryController {
     }
 
     @PostMapping("/wineries")
-    public String filterWineries(@RequestParam("filter") String filter, Model model) {
+    public String filterWineries(@RequestParam(value = "filter", required = false) String filter, Model model) {
+        if (filter == null) {
+            return "redirect:/wineries";
+        }
         List<Winery> wineries = wineryService.findBy(filter);
 
         List<Double> latitudes = new ArrayList<>();
@@ -142,12 +149,18 @@ public class WineryController {
     }
 
     @PostMapping("/wineries/search")
-    public String search(@RequestParam("search") String search, Model model) {
+    public String search(@RequestParam(value = "filter", required = false) String filter,
+                         @RequestParam("search") String search, Model model) {
+
+        if (filter == null) {
+            return "redirect:/wineries?filter=ChooseFilter";
+        }
+
         if (search.equals("")) {
             return "redirect:/wineries?error=WineryNotFound";
         }
 
-        List<Winery> wineries = wineryService.search(search);
+        List<Winery> wineries = wineryService.search(search, filter);
         if (wineries == null) {
             return "redirect:/wineries";
         }
