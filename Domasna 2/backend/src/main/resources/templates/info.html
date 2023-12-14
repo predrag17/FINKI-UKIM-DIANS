@@ -428,11 +428,13 @@
             </th:block>
         </div>
 
+        <th:block th:if="${session.user != null and session.user.getEmail() != 'admin@gmail.com'}">
+            <form method="post" action="/rating/add">
+                <input type="number" min="1" max="10" name="rating"/>
+                <input type="submit" value="Оцени"/>
+            </form>
+        </th:block>
 
-        <form method="post" action="/rating/add">
-            <input type="number" min="1" max="10" name="rating"/>
-            <input type="submit" value="Оцени"/>
-        </form>
     </div>
 
     <div id="c-container">
@@ -473,7 +475,7 @@
             </th:block>
 
 
-            <div th:if="${session.user != null}" class="wrapper">
+            <div th:if="${session.user != null and session.user.getEmail() != 'admin@gmail.com'}" class="wrapper">
                 <h3>Оставете коментар: </h3>
                 <form id="commentForm" method="post" th:action="@{/add-comment}">
                     <textarea name="comment" id="comment" cols="20" rows="2" placeholder="Вашиот коментар.."></textarea>
