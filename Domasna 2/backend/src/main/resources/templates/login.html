@@ -32,6 +32,39 @@
 
         }
 
+        nav {
+            background-color: #444;
+            padding: 10px;
+            text-align: center;
+            width: 100%;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+        }
+
+        nav li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #555;
+        }
+
+
         #loginContainer {
             border-radius: 5px;
             overflow: hidden;
@@ -98,16 +131,25 @@
 
 </header>
 
-<th:block th:if="${invalid}">
-    <p>Wrong credentials!</p>
-</th:block>
+<nav>
+    <ul>
+        <li><a th:href="@{/home}">Дома</a></li>
+        <li><a th:href="@{/wineries}">Винарии</a></li>
+        <li><a th:href="@{/winery/aboutUs}">За нас</a></li>
+    </ul>
+</nav>
+
+<div>
+    <p th:text="${param.error}">Wrong credentials!</p>
+</div>
+
 
 <div id="loginContainer">
     <div id="loginImage"></div>
     <div id="loginForm">
         <form method="post" action="/login">
             <h1 id="title">Log in</h1>
-            <input type="text" id="username" name="email" placeholder="Email..." required>
+            <input type="text" id="username" name="username" placeholder="Username..." required>
 
             <input type="password" id="password" name="password" placeholder="Password..." required>
 
@@ -121,4 +163,17 @@
 </div>
 
 </body>
+
+<script>
+    function scrollToTop() {
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    function scrollToNewContact() {
+        var newContactSection = document.getElementById('new-contact');
+        if (newContactSection) {
+            newContactSection.scrollIntoView({behavior: 'smooth'});
+        }
+    }
+</script>
 </html>

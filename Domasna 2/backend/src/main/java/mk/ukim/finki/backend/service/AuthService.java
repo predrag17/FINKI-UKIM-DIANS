@@ -8,5 +8,5 @@ public interface AuthService {
 
     Optional<User> login(String username, String password);
 
-    User register(String username, String name, String surname, String password, String repeated);
+
 }

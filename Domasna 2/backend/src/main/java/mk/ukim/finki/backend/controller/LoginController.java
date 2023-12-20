@@ -4,11 +4,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import mk.ukim.finki.backend.model.User;
 import mk.ukim.finki.backend.service.AuthService;
+import mk.ukim.finki.backend.service.UserService;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
@@ -16,10 +19,10 @@ import java.util.Optional;
 @RequestMapping("/login")
 public class LoginController {
 
-    private final AuthService authService;
+    private final UserService userService;
 
-    public LoginController(AuthService authService) {
-        this.authService = authService;
+    public LoginController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping
@@ -28,19 +31,20 @@ public class LoginController {
     }
 
     @PostMapping
-    public String login(HttpServletRequest request, Model model, HttpSession session) {
-        Optional<User> user = Optional.empty();
+    public String login(@RequestParam("username") String username, Model model, HttpSession session) {
+        UserDetails user = null;
 
-        user = authService.login(request.getParameter("email"), request.getParameter("password"));
+        user = userService.loadUserByUsername(username);
 
-        if (user.isEmpty()) {
+        if (user == null) {
             model.addAttribute("invalid", true);
             return "login";
 
         }
 
+        User user1 = (User) user;
 
-        session.setAttribute("user", user.get());
+        session.setAttribute("user", user1);
         return "redirect:/home";
     }
 }

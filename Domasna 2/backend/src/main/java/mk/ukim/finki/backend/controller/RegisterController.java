@@ -1,7 +1,9 @@
 package mk.ukim.finki.backend.controller;
 
 import mk.ukim.finki.backend.model.User;
+import mk.ukim.finki.backend.model.enumerations.Role;
 import mk.ukim.finki.backend.service.AuthService;
+import mk.ukim.finki.backend.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/register")
 public class RegisterController {
 
-    private final AuthService authService;
+    private final UserService userService;
 
-    public RegisterController(AuthService authService) {
-        this.authService = authService;
+    public RegisterController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping
@@ -26,14 +28,16 @@ public class RegisterController {
 
 
     @PostMapping
-    public String register(@RequestParam("firstName") String firstName,
-                           @RequestParam("lastName") String lastName,
-                           @RequestParam("email") String email,
-                           @RequestParam("password") String password,
-                           @RequestParam("repeatedPw") String repeated, Model model) {
+    public String register(
+            @RequestParam("username") String username,
+            @RequestParam("firstName") String firstName,
+            @RequestParam("lastName") String lastName,
+            @RequestParam("email") String email,
+            @RequestParam("password") String password,
+            @RequestParam("repeatedPw") String repeated, Model model) {
 
 
-        User user = authService.register(firstName, lastName, email, password, repeated);
+        User user = userService.register(username, firstName, lastName, email, password, repeated, Role.valueOf("ROLE_USER"));
         if (user == null) {
             model.addAttribute("invalid", true);
             return "register";

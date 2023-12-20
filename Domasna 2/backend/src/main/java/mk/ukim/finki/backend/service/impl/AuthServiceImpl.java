@@ -21,13 +21,13 @@ public class AuthServiceImpl implements AuthService {
         return userRepository.findByEmailAndPassword(email, password);
     }
 
-    @Override
-    public User register(String firstName, String lastName, String email, String password, String repeated) {
-        if (!password.equals(repeated)) {
-            return null;
-        }
-
-        User user = new User(firstName, lastName, email, password);
-        return userRepository.save(user);
-    }
+//    @Override
+//    public User register(String firstName, String lastName, String email, String password, String repeated) {
+//        if (!password.equals(repeated)) {
+//            return null;
+//        }
+//
+//        User user = new User(firstName, lastName, email, password);
+//        return userRepository.save(user);
+//    }
 }
