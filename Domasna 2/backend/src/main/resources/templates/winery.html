@@ -455,19 +455,23 @@
                  th:each="winery : ${wineries}">
                 <a th:text="${winery}" th:href="@{'/winery/info/{id}' (id=${winery.getId()})}"></a>
 
-                <th:block th:if="${session.user != null and session.user.getEmail() == 'admin@gmail.com'}">
+                <th:block sec:authorize="hasRole('ADMIN')">
                     <button><a th:href="@{'/winery/delete/{id}' (id=${winery.getId()})}" th:method="GET">Delete</a>
                     </button>
                     <button><a th:href="@{'/winery/edit/{id}' (id=${winery.getId()})}" th:method="POST">Edit</a>
                     </button>
                 </th:block>
 
-                <th:block th:if="${session.user != null}">
-                    <th:block th:if="${winery.getUser() != null and winery.getUser().getId() == session.user.getId()}">
-                        <button><a th:href="@{'/winery/delete/{id}' (id=${winery.getId()})}" th:method="GET">Delete</a>
-                        </button>
-                        <button><a th:href="@{'/winery/edit/{id}' (id=${winery.getId()})}" th:method="POST">Edit</a>
-                        </button>
+                <th:block sec:authorize="isAuthenticated()">
+                    <th:block sec:authorize="hasRole('USER')">
+                        <th:block
+                                th:if="${winery.getUser() != null and winery.getUser().getUsername() == #authentication.name}">
+                            <button><a th:href="@{'/winery/delete/{id}' (id=${winery.getId()})}"
+                                       th:method="GET">Delete</a>
+                            </button>
+                            <button><a th:href="@{'/winery/edit/{id}' (id=${winery.getId()})}" th:method="POST">Edit</a>
+                            </button>
+                        </th:block>
                     </th:block>
                 </th:block>
 
@@ -479,12 +483,23 @@
                 <a th:text="${winery}" th:href="@{'/winery/info/{id}' (id=${winery.getId()})}"></a>
 
 
-                <th:block th:if="${session.user != null}">
-                    <th:block th:if="${winery.getUser() != null and winery.getUser().getId() == session.user.getId()}">
-                        <button><a th:href="@{'/winery/delete/{id}' (id=${winery.getId()})}" th:method="GET">Delete</a>
-                        </button>
-                        <button><a th:href="@{'/winery/edit/{id}' (id=${winery.getId()})}" th:method="POST">Edit</a>
-                        </button>
+                <th:block sec:authorize="hasRole('ADMIN')">
+                    <button><a th:href="@{'/winery/delete/{id}' (id=${winery.getId()})}" th:method="GET">Delete</a>
+                    </button>
+                    <button><a th:href="@{'/winery/edit/{id}' (id=${winery.getId()})}" th:method="POST">Edit</a>
+                    </button>
+                </th:block>
+
+                <th:block sec:authorize="isAuthenticated()">
+                    <th:block sec:authorize="hasRole('USER')">
+                        <th:block
+                                th:if="${winery.getUser() != null and winery.getUser().getUsername() == #authentication.name}">
+                            <button><a th:href="@{'/winery/delete/{id}' (id=${winery.getId()})}"
+                                       th:method="GET">Delete</a>
+                            </button>
+                            <button><a th:href="@{'/winery/edit/{id}' (id=${winery.getId()})}" th:method="POST">Edit</a>
+                            </button>
+                        </th:block>
                     </th:block>
                 </th:block>
 
@@ -494,12 +509,23 @@
                  th:each="winery : ${searchedWines}">
                 <a th:text="${winery}" th:href="@{'/winery/info/{id}' (id=${winery.getId()})}"></a>
 
-                <th:block th:if="${session.user != null}">
-                    <th:block th:if="${winery.getUser() != null and winery.getUser().getId() == session.user.getId()}">
-                        <button><a th:href="@{'/winery/delete/{id}' (id=${winery.getId()})}" th:method="GET">Delete</a>
-                        </button>
-                        <button><a th:href="@{'/winery/edit/{id}' (id=${winery.getId()})}" th:method="POST">Edit</a>
-                        </button>
+                <th:block sec:authorize="hasRole('ADMIN')">
+                    <button><a th:href="@{'/winery/delete/{id}' (id=${winery.getId()})}" th:method="GET">Delete</a>
+                    </button>
+                    <button><a th:href="@{'/winery/edit/{id}' (id=${winery.getId()})}" th:method="POST">Edit</a>
+                    </button>
+                </th:block>
+
+                <th:block sec:authorize="isAuthenticated()">
+                    <th:block sec:authorize="hasRole('USER')">
+                        <th:block
+                                th:if="${winery.getUser() != null and winery.getUser().getUsername() == #authentication.name}">
+                            <button><a th:href="@{'/winery/delete/{id}' (id=${winery.getId()})}"
+                                       th:method="GET">Delete</a>
+                            </button>
+                            <button><a th:href="@{'/winery/edit/{id}' (id=${winery.getId()})}" th:method="POST">Edit</a>
+                            </button>
+                        </th:block>
                     </th:block>
                 </th:block>
             </div>

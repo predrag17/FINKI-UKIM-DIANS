@@ -195,7 +195,8 @@ public class WineryController {
     }
 
     @GetMapping("/winery/add-winery")
-    public String addNewWinery(Model model) {
+    public String addNewWinery(Model model, HttpSession session) {
+        session.removeAttribute("wineryId");
         model.addAttribute("users", userService.findAll());
         return "addWinery";
     }

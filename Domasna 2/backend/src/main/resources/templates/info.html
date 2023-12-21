@@ -400,7 +400,7 @@
                         <p
                                 th:text="${rating.getRating()}"></p>
 
-                        <th:block th:if="${session.user != null and session.user.getEmail() == 'admin@gmail.com'}">
+                        <th:block sec:authorize="hasRole('ADMIN')">
                             <div id="deleting">
                                 <a th:href="@{'/rating/delete/{id}' (id=${rating.getId()})}">
                                     <button>Delete</button>
@@ -408,8 +408,8 @@
                             </div>
                         </th:block>
 
-                        <th:block th:if="${session.user != null and session.user.getEmail() != 'admin@gmail.com'}">
-                            <div id="deleting" th:if="${rating.getUser().getId()} == ${session.user.getId()}">
+                        <th:block sec:authorize="isAuthenticated()">
+                            <div id="deleting" th:if="${rating.getUser().getUsername() == #authentication.name}">
                                 <a th:href="@{'/rating/delete/{id}' (id=${rating.getId()})}">
                                     <button>Delete</button>
                                 </a>
@@ -429,12 +429,15 @@
             </th:block>
         </div>
 
-        <th:block th:if="${session.user != null and session.user.getEmail() != 'admin@gmail.com'}">
-            <form method="post" action="/rating/add">
-                <input type="number" min="1" max="10" name="rating"/>
-                <input type="submit" value="Оцени"/>
-            </form>
+        <th:block sec:authorize="isAuthenticated()">
+            <th:block sec:authorize="hasRole('USER')">
+                <form method="post" action="/rating/add">
+                    <input type="number" min="1" max="10" name="rating"/>
+                    <input type="submit" value="Оцени"/>
+                </form>
+            </th:block>
         </th:block>
+
 
     </div>
 
@@ -448,7 +451,7 @@
                         <p
                                 th:text="${comment.getComment()}"></p>
 
-                        <th:block th:if="${session.user != null and session.user.getEmail() == 'admin@gmail.com'}">
+                        <th:block sec:authorize="hasRole('ADMIN')">
                             <div id="deleting">
                                 <a th:href="@{'/comment/delete/{id}' (id=${comment.getId()})}">
                                     <button>Delete</button>
@@ -456,8 +459,8 @@
                             </div>
                         </th:block>
 
-                        <th:block th:if="${session.user != null and session.user.getEmail() != 'admin@gmail.com'}">
-                            <div id="deleting" th:if="${comment.getUser().getId()} == ${session.user.getId()}">
+                        <th:block sec:authorize="isAuthenticated()">
+                            <div id="deleting" th:if="${comment.getUser().getUsername() == #authentication.name}">
                                 <a th:href="@{'/comment/delete/{id}' (id=${comment.getId()})}">
                                     <button>Delete</button>
                                 </a>
@@ -476,13 +479,15 @@
             </th:block>
 
 
-            <div th:if="${session.user != null and session.user.getEmail() != 'admin@gmail.com'}" class="wrapper">
-                <h3>Оставете коментар: </h3>
-                <form id="commentForm" method="post" th:action="@{/add-comment}">
-                    <textarea name="comment" id="comment" cols="20" rows="2" placeholder="Вашиот коментар.."></textarea>
-                    <input type="submit" class="btn submit" value="Додади коментар"/>
-                </form>
-
+            <div sec:authorize="isAuthenticated()" class="wrapper">
+                <th:block sec:authorize="hasRole('USER')">
+                    <h3>Оставете коментар: </h3>
+                    <form id="commentForm" method="post" th:action="@{/add-comment}">
+                        <textarea name="comment" id="comment" cols="20" rows="2"
+                                  placeholder="Вашиот коментар.."></textarea>
+                        <input type="submit" class="btn submit" value="Додади коментар"/>
+                    </form>
+                </th:block>
             </div>
 
 
