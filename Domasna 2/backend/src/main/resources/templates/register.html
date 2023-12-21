@@ -145,6 +145,10 @@
     <p>Incorrect password!</p>
 </th:block>
 
+<th:block th:if="${alreadyExist}">
+    <p>User with that username or email already exist</p>
+</th:block>
+
 <div id="loginContainer">
     <div id="loginImage"></div>
     <div id="loginForm">

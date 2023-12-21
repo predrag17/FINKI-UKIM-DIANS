@@ -38,8 +38,15 @@ public class RegisterController {
 
 
         User user = userService.register(username, firstName, lastName, email, password, repeated, Role.valueOf("ROLE_USER"));
+
+
         if (user == null) {
             model.addAttribute("invalid", true);
+            return "register";
+        }
+
+        if (user.getUsername() == null) {
+            model.addAttribute("alreadyExist", true);
             return "register";
         }
 

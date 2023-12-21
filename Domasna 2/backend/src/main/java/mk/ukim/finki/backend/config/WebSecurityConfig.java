@@ -29,7 +29,7 @@ public class WebSecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/home", "/wineries", "/winery/info/**", "/winery/aboutUs", "/images/**", "/register")
+                        .requestMatchers("/home", "/wineries", "/winery/info/**", "/winery/aboutUs", "/wineries/search", "/images/**", "/register")
                         .permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest()

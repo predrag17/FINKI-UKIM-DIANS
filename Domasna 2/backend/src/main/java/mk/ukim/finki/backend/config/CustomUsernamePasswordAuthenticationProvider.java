@@ -30,6 +30,10 @@ public class CustomUsernamePasswordAuthenticationProvider implements Authenticat
         }
 
         UserDetails userDetails = userService.loadUserByUsername(username);
+        if (userDetails == null) {
+            throw new BadCredentialsException("Invalid Credentials");
+        }
+
         if (!passwordEncoder.matches(password, userDetails.getPassword())) {
             throw new BadCredentialsException("Invalid Credentials");
         }

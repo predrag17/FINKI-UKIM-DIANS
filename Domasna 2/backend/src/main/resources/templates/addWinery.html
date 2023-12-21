@@ -356,17 +356,25 @@
                 <div>
                     <label>Власник на винарија:</label>
                     <select name="userId">
-                        <option th:if="${winery != null}"
-                                th:selected="${winery.getUser().getUsername()} == ${user.getUsername()}"
-                                th:each="user : ${users}"
-                                th:text="${user}"
-                                th:value="${user.getId()}"></option>
+                        <th:block sec:authorize="hasRole('ADMIN')">
+                            <option
+                                    th:each="user : ${users}"
+                                    th:text="${user.getUsername()}"
+                                    th:if="${user.getUsername() != 'admin'}"
+                                    th:value="${user.getId()}"></option>
+                        </th:block>
 
-                        <option th:if="${winery == null}"
-                                th:each="user : ${users}"
-                                th:text="${user}"
-                                th:value="${user.getId()}"
-                        >
+
+                        <th:block sec:authorize="isAuthenticated()">
+                            <th:block sec:authorize="hasRole('USER')">
+                                <option th:each="user : ${users}"
+                                        th:text="${user.getUsername()}"
+                                        th:if="${#authentication.name eq user.getUsername()}"
+                                        th:value="${user.getId()}"
+                                >
+                            </th:block>
+                        </th:block>
+
 
                         </option>
                     </select>

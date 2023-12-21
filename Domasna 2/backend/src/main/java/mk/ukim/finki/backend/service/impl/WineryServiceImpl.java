@@ -44,20 +44,16 @@ public class WineryServiceImpl implements WineryService {
         if (filter.equals("Коментар")) {
             return wineries.stream()
                     .filter(winery -> Objects.nonNull(winery.getReviews()))
-                    .mapToInt(winery -> Integer.parseInt(winery.getReviews()))
-                    .boxed()
-                    .sorted(Comparator.reverseOrder())
-                    .map(sorted -> wineries.stream()
-                            .filter(winery -> Objects.equals(winery.getReviews(), Integer.toString(sorted)))
-                            .findFirst().orElse(null))
+                    .sorted(Comparator.comparing((Winery winery) -> Integer.parseInt(winery.getReviews())).reversed())
                     .collect(Collectors.toList());
         }
 
         if (filter.equals("Рејтинг")) {
             return wineries.stream()
                     .filter(winery -> Objects.nonNull(winery.getRating()))
-                    .sorted(Comparator.comparing(Winery::getRating).reversed())
+                    .sorted(Comparator.comparing((Winery winery) -> Double.parseDouble(winery.getRating())).reversed())
                     .collect(Collectors.toList());
+
         }
 
 

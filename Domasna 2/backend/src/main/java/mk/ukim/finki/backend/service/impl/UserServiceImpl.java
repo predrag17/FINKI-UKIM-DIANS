@@ -34,6 +34,10 @@ public class UserServiceImpl implements UserService {
             return null;
         }
 
+        if (userRepository.existsByUsernameOrEmail(username, email)) {
+            return new User();
+        }
+
         User user = new User(username, firstName, lastName, email, passwordEncoder.encode(password), role);
         return userRepository.save(user);
     }
