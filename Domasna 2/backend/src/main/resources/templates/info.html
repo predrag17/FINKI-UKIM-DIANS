@@ -393,7 +393,8 @@
         <h1 th:text="${winery.getTitle()}"></h1>
         <div class="review-section">
             <th:block th:if="${winery.getRating()} != null">
-                <div id="average-review" th:text="'Рејтинг: ' + ${winery.avgRating()}"></div>
+                <div id="average-review"
+                     th:text="'Рејтинг: ' + ${#numbers.formatDecimal(winery.avgRating(), 1, 'COMMA', 1, 'POINT')}"></div>
                 <div id="comments">
                     <div class="comment" th:each="rating : ${ratings}">
                         <strong th:text="${rating.getUser()} + ' ја оцени винаријата со '"></strong>
