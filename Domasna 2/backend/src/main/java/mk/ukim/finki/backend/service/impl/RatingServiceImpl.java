@@ -28,12 +28,18 @@ public class RatingServiceImpl implements RatingService {
 
         Rating r = new Rating(rating, user, winery.get());
         ratingRepository.save(r);
+
+        winery.get().setRating(String.valueOf(winery.get().avgRating()));
+        wineryRepository.save(winery.get());
     }
 
     @Override
     public void delete(Long id) {
+        Optional<Rating> rating = ratingRepository.findById(id);
+        Winery winery = rating.get().getWinery();
         ratingRepository.deleteById(id);
 
-
+        winery.setRating(String.valueOf(winery.avgRating()));
+        wineryRepository.save(winery);
     }
 }
