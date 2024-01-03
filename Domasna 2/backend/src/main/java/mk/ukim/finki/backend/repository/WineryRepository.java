@@ -11,15 +11,6 @@ import java.util.List;
 
 @Repository
 public interface WineryRepository extends JpaRepository<Winery, Long> {
-    List<Winery> findByReviews(String filter);
-
-    List<Winery> findByRating(String filter);
-
-    List<Winery> findByTitle(String title);
-
-    List<Winery> findByAddress(String address);
-
-    List<Winery> findAllByTitleLike(String search);
 
     List<Winery> findAllByAddressContainsIgnoreCase(String search);
 

@@ -77,6 +77,7 @@ public class WineryController {
         return "winery";
     }
 
+    // Земање на географските должини на винариите
     private void lons(List<Winery> wineries, List<Double> longitudes) {
         for (Winery winery : wineries) {
             String[] parts = winery.getLink().split("/");
@@ -94,6 +95,7 @@ public class WineryController {
         }
     }
 
+    // Земање на географските ширини на винариите
     private void lats(List<Winery> wineries, List<Double> latitudes) {
         for (Winery winery : wineries) {
             String[] parts = winery.getLink().split("/");

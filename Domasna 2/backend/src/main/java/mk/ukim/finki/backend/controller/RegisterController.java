@@ -2,7 +2,6 @@ package mk.ukim.finki.backend.controller;
 
 import mk.ukim.finki.backend.model.User;
 import mk.ukim.finki.backend.model.enumerations.Role;
-import mk.ukim.finki.backend.service.AuthService;
 import mk.ukim.finki.backend.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
