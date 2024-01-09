@@ -17,7 +17,7 @@ public class Winery {
 
     @Id
     @SequenceGenerator(name = "winery_sequence", sequenceName = "winery_sequence", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "winery_sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "winery_sequence")
     private Long id;
     private String title;
     private String link;
