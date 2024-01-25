@@ -188,8 +188,8 @@ public class WineryController {
 
     @GetMapping("/winery/delete/{id}")
     public String deleteWinery(@PathVariable Long id) {
-        boolean check = wineryService.deleteById(id);
-        if (check) {
+        boolean isDeleted = wineryService.deleteById(id);
+        if (isDeleted) {
             return "redirect:/wineries";
         }
 

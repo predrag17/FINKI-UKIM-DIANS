@@ -1,5 +1,8 @@
 package mk.ukim.finki.backend.config;
 
+import mk.ukim.finki.backend.model.User;
+import mk.ukim.finki.backend.model.enumerations.Role;
+import mk.ukim.finki.backend.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -8,8 +11,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -22,10 +23,12 @@ public class WebSecurityConfig {
 
     private final PasswordEncoder passwordEncoder;
     private final CustomUsernamePasswordAuthenticationProvider authProvider;
+    private final UserRepository userRepository;
 
-    public WebSecurityConfig(PasswordEncoder passwordEncoder, CustomUsernamePasswordAuthenticationProvider authProvider) {
+    public WebSecurityConfig(PasswordEncoder passwordEncoder, CustomUsernamePasswordAuthenticationProvider authProvider, UserRepository userRepository) {
         this.passwordEncoder = passwordEncoder;
         this.authProvider = authProvider;
+        this.userRepository = userRepository;
     }
 
     @Bean
@@ -61,12 +64,13 @@ public class WebSecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        UserDetails user = User.builder()
-                .username("admin")
-                .password(passwordEncoder.encode("admin"))
-                .authorities("ROLE_ADMIN")
-                .build();
-
+        User user;
+        if (userRepository.existsByUsername("admin")) {
+            return new InMemoryUserDetailsManager();
+        }
+        user = new User("admin", "Admin", "Admin",
+                "admin@gmail.com", passwordEncoder.encode("admin"), Role.valueOf("ROLE_ADMIN"));
+        userRepository.save(user);
         return new InMemoryUserDetailsManager(user);
     }
 
