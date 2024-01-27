@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="mk" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Избор на Винарија</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header a {
+            text-decoration: none;
+            color: white;
+        }
+
+        header h1 {
+            transition: transform 0.7s;
+        }
+
+        header h1:hover {
+            transform: scale(1.1);
+        }
+
+        nav {
+            background-color: #444;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #555;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #c-container {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            flex: 1;
+        }
+
+        #c-container label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        #c-container select,
+        #c-container textarea,
+        #c-container input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        #c-container button {
+            background-color: grey;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #c-container button:hover {
+            background-color: #555;
+        }
+
+        #contact h2 {
+            color: #333;
+        }
+
+        #contact p {
+            margin: 10px 0;
+            color: #555;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+
+        #new-contact {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        #contact-image {
+            max-width: 100%;
+            margin-right: 20px;
+        }
+
+        #contact-text {
+            text-align: end;
+        }
+
+        #calendar {
+            margin-left: 35px;
+        }
+
+        #calendarTable {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #new-contact h2 {
+            color: #eeeaea;
+        }
+
+        #new-contact p {
+            margin: 10px 0;
+            color: #eeeaea;
+        }
+
+        label {
+            text-align: center;
+        }
+
+        .review-section {
+            margin-top: 20px;
+        }
+
+        #average-review {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        #total-comments {
+            display: inline-block;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+
+        #comments {
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+            max-height: 300px;
+            overflow: auto;
+        }
+
+        .comment {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .comment p {
+            display: inline-block;
+        }
+
+        .comment a {
+            text-decoration: none;
+            color: white;
+        }
+
+        .comment p, .comment strong {
+            margin-right: 20px;
+        }
+
+        #flag-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        #flag {
+            cursor: pointer;
+        }
+
+        table {
+            width: 20%;
+            border-collapse: collapse;
+            background-color: black;
+        }
+
+        th, td {
+            border: 1px solid grey;
+            text-align: center;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #444444;
+        }
+
+
+        td.today {
+            background-color: #9a9494;
+            font-weight: bold;
+        }
+
+        body > div > form:nth-child(1) > h1 {
+            text-align: center;
+            text-decoration: underline;
+        }
+
+        #currentDateInfo {
+            font-weight: bold;
+        }
+
+        #map {
+            height: 400px;
+            width: 90%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 50px auto 50px auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+
+        }
+
+        .wrapper h3 {
+            font-size: 1.0rem;
+            margin-bottom: 5px;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            grid-gap: .5rem;
+            color: #f3e715;
+            margin-bottom: 10px;
+
+        }
+
+        .rating .star:hover {
+            transform: scale(1.1);
+        }
+
+        .rating .star {
+            cursor: pointer;
+        }
+
+        .rating .star.active {
+            opacity: 0;
+            animation: animate .5s ease-in-out forwards;
+        }
+
+        #comments-container {
+            margin-top: 20px;
+        }
+
+        .comment {
+            margin-bottom: 10px;
+        }
+
+        @media only screen and (max-width: 600px) {
+            header {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            #logo-left {
+                margin-bottom: 10px;
+            }
+
+            #logo-middle, #logo-right {
+                margin: 0;
+            }
+
+            nav ul {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav li {
+                display: block;
+                margin: 10px 0;
+            }
+
+            #image-overlay {
+                margin-top: 596px;
+            }
+
+            #text-under-overlay {
+                margin-top: 100px;
+            }
+
+            #background-container {
+                padding-bottom: 100px;
+            }
+
+            #new-contact {
+                flex-direction: column;
+                text-align: center;
+                margin-top: 20px;
+            }
+
+            #contact-image {
+                width: 100%;
+                max-width: none;
+                margin-bottom: 10px;
+            }
+
+            #calendar {
+                margin-left: 0;
+            }
+
+            table {
+                width: 100%;
+            }
+
+            #flag-container {
+                margin-top: 10px;
+            }
+
+            section {
+                margin-top: 20px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="/images/left_logo_url.png" id="logo-left" alt="Left Logo" width="100" height="70">
+    <h1 id="logo-middle" sec:authorize="isAuthenticated()"><a th:href="@{/logout}" sec:authentication="name"></a>
+    </h1>
+    <h1 id="logo-middle" sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Login</a></h1>
+    <h1 id="logo-right">ВИНО++</h1>
+</header>
+
+<nav>
+    <ul>
+        <li><a th:href="@{/home}">Дома</a></li>
+        <li><a th:href="@{/wineries}">Винарии</a></li>
+        <li><a th:href="@{/winery/aboutUs}">За нас</a></li>
+        <li><a href="#new-contact" onclick="scrollToNewContact()">Контакт</a></li>
+    </ul>
+</nav>
+
+<div class="container">
+    <div id="c-container">
+        <h1 th:text="${winery.getTitle()}"></h1>
+        <div class="review-section">
+            <th:block th:if="${winery.getRating()} != null">
+                <div id="average-review"
+                     th:text="'Рејтинг: ' + ${#numbers.formatDecimal(winery.avgRating(), 1, 'COMMA', 1, 'POINT')}"></div>
+                <div id="comments">
+                    <div class="comment" th:each="rating : ${ratings}">
+                        <strong th:text="${rating.getUser()} + ' ја оцени винаријата со '"></strong>
+                        <p
+                                th:text="${rating.getRating()}"></p>
+
+                        <th:block sec:authorize="hasRole('ADMIN')">
+                            <div id="deleting">
+                                <a th:href="@{'/rating/delete/{id}' (id=${rating.getId()})}">
+                                    <button>Delete</button>
+                                </a>
+                            </div>
+                        </th:block>
+
+                        <th:block sec:authorize="isAuthenticated()">
+                            <div id="deleting" th:if="${rating.getUser().getUsername() == #authentication.name}">
+                                <a th:href="@{'/rating/delete/{id}' (id=${rating.getId()})}">
+                                    <button>Delete</button>
+                                </a>
+                            </div>
+                        </th:block>
+
+
+                    </div>
+
+
+                </div>
+
+            </th:block>
+
+            <th:block th:if="${winery.getRating()} == null">
+                <div id="average-review" th:text="'Нема рејтинг за оваа винарија'"></div>
+            </th:block>
+        </div>
+
+        <th:block sec:authorize="isAuthenticated()">
+            <th:block sec:authorize="hasRole('USER')">
+                <form method="post" action="/rating/add">
+                    <input type="number" min="1" max="5" name="rating"/>
+                    <input type="submit" value="Оцени"/>
+                </form>
+            </th:block>
+        </th:block>
+
+
+    </div>
+
+    <div id="c-container">
+        <div class="review-section">
+            <th:block th:if="${winery.getReviews()} != null">
+                <div id="total-comments" th:text="'Вкупно коментари: ' + ${winery.getReviews()}"></div>
+                <div id="comments">
+                    <div class="comment" th:each="comment : ${comments}">
+                        <strong th:text="${comment.getUser()} + ': '"></strong>
+                        <p
+                                th:text="${comment.getComment()}"></p>
+
+                        <th:block sec:authorize="hasRole('ADMIN')">
+                            <div id="deleting">
+                                <a th:href="@{'/comment/delete/{id}' (id=${comment.getId()})}">
+                                    <button>Delete</button>
+                                </a>
+                            </div>
+                        </th:block>
+
+                        <th:block sec:authorize="isAuthenticated()">
+                            <div id="deleting" th:if="${comment.getUser().getUsername() == #authentication.name}">
+                                <a th:href="@{'/comment/delete/{id}' (id=${comment.getId()})}">
+                                    <button>Delete</button>
+                                </a>
+                            </div>
+                        </th:block>
+
+
+                    </div>
+
+
+                </div>
+            </th:block>
+
+            <th:block th:if="${winery.getReviews()} == null">
+                <div id="total-comments" th:text="'Вкупно коментари: 0'"></div>
+            </th:block>
+
+
+            <div sec:authorize="isAuthenticated()" class="wrapper">
+                <th:block sec:authorize="hasRole('USER')">
+                    <h3>Оставете коментар: </h3>
+                    <form id="commentForm" method="post" th:action="@{/add-comment}">
+                        <textarea name="comment" id="comment" cols="20" rows="2"
+                                  placeholder="Вашиот коментар.."></textarea>
+                        <input type="submit" class="btn submit" value="Додади коментар"/>
+                    </form>
+                </th:block>
+            </div>
+
+
+        </div>
+    </div>
+
+
+</div>
+
+<div id="map">
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+
+        /*<![CDATA[*/
+        var winery = /*[[${winery}]]*/ 4;
+        var latitude = /*[[${latitude}]]*/ 41.615;
+        var longitude = /*[[${longitude}]]*/ 21.751;
+        /*]]>*/
+
+
+        var map = L.map('map').setView([latitude, longitude], 13);
+
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+
+        L.marker([latitude, longitude]).addTo(map)
+            .bindPopup('<b>' + winery.title);
+    });
+</script>
+<footer>
+    <section id="new-contact">
+        <img id="contact-image" src="/images/left_logo_url.png" alt="Contact Image" width="220" height="160">
+        <div id="calendar">
+            <h2 id="currentMonthYear"></h2>
+            <table id="calendarTable">
+                <thead>
+                <tr>
+                    <th colspan="7" id="currentDateInfo"></th>
+                </tr>
+                <tr>
+                    <th>Sun</th>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div id="contact-text">
+            <h2>Контакт информации:</h2>
+            <p><strong>Име: </strong>ВИНО++</p>
+            <p><strong>Телефонски број: </strong> 078232323</p>
+            <p><strong>Адреса: </strong>Руѓер Бошковиќ 16</p>
+            <p><strong>Е-пошта: </strong> vinocontact@example.com</p>
+        </div>
+    </section>
+    <div id="flag-container">
+        <a href="#" onclick="scrollToTop()"><img id="flag" src="/images/mkd.png" alt="Macedonian Flag" width="50"
+                                                 height="30"></a>
+    </div>
+    <p>© 2023 Online Application. All rights reserved.</p>
+</footer>
+<script>
+    const allStar = document.querySelectorAll('.bx-star');
+    let userRating = 0;
+
+    allStar.forEach((item, idx) => {
+        item.addEventListener('click', function () {
+            userRating = idx + 1;
+
+            allStar.forEach((i, index) => {
+                i.classList.remove('bxs-star');
+                i.classList.add('bx-star');
+            });
+
+            for (let i = 0; i <= idx; i++) {
+                allStar[i].classList.remove('bx-star');
+                allStar[i].classList.add('bxs-star');
+            }
+        });
+    });
+
+    function generateCalendar(year, month, today) {
+        const tableBody = document.querySelector('#calendarTable tbody');
+        tableBody.innerHTML = '';
+
+
+        const firstDay = new Date(year, month, 1);
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        let dayCounter = 1;
+
+
+        let startDayOfWeek = firstDay.getDay();
+
+        for (let i = 0; i < 6; i++) {
+            const row = document.createElement('tr');
+
+            for (let j = 0; j < 7; j++) {
+                const cell = document.createElement('td');
+                if (i === 0 && j < startDayOfWeek) {
+
+                    cell.textContent = '';
+                } else if (dayCounter <= daysInMonth) {
+                    cell.textContent = dayCounter;
+                    if (dayCounter === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+                        cell.classList.add('today');
+                    }
+                    dayCounter++;
+                }
+                row.appendChild(cell);
+            }
+
+            tableBody.appendChild(row);
+        }
+    }
+
+
+    function updateDate() {
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear();
+        const currentMonth = currentDate.getMonth();
+
+
+        generateCalendar(currentYear, currentMonth, currentDate);
+
+
+        const currentDateInfo = document.getElementById('currentDateInfo');
+        currentDateInfo.textContent = `${new Intl.DateTimeFormat('en-US', {
+            weekday: 'long',
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+        }).format(currentDate)}`;
+    }
+
+
+    updateDate();
+
+
+    setInterval(updateDate, 1000 * 60 * 60 * 24);
+</script>
+
+
+</body>
+</html>
