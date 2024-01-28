@@ -1,12 +1,13 @@
 package mk.ukim.finki.winery.service.impl;
 
 
-
 import mk.ukim.finki.winery.model.Winery;
 import mk.ukim.finki.winery.repository.WineryRepository;
+
 import mk.ukim.finki.winery.service.WineryService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Comparator;
 import java.util.List;
@@ -19,12 +20,11 @@ import java.util.stream.Collectors;
 public class WineryServiceImpl implements WineryService {
 
     private final WineryRepository wineryRepository;
+    private final RestTemplate restTemplate;
 
-//    @Autowired
-//    private WineryInterface wineryInterface;
-
-    public WineryServiceImpl(WineryRepository wineryRepository) {
+    public WineryServiceImpl(WineryRepository wineryRepository, RestTemplate restTemplate) {
         this.wineryRepository = wineryRepository;
+        this.restTemplate = restTemplate;
     }
 
     @Override
@@ -122,8 +122,10 @@ public class WineryServiceImpl implements WineryService {
 
     }
 
-//    @Override
-//    public boolean isLogged() {
-//        return wineryInterface.sessionUser();
-//    }
+    @Override
+    public boolean isLogged() {
+        ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:8090/session/user", String.class);
+        System.out.println(response.getBody());
+        return false;
+    }
 }

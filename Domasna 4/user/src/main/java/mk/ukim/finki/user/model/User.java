@@ -5,9 +5,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import mk.ukim.finki.user.model.enumerations.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import mk.ukim.finki.user.model.enumerations.Role;
+
 import java.util.Collection;
 import java.util.Collections;
 
@@ -31,7 +32,6 @@ public class User implements UserDetails {
 
     @Enumerated(value = EnumType.STRING)
     private Role role;
-
 
 
     @Column(name = "is_account_non_expired")
